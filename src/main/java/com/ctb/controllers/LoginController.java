@@ -1,17 +1,22 @@
 package com.ctb.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import com.ctb.services.JwtService;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class LoginController {
 
-    @GetMapping("/user")
-    public String getUser(){
-        return "welcom user";
+    private JwtService jwtService;
+
+    public LoginController(JwtService jwtService) {
+        this.jwtService = jwtService;
     }
-    @GetMapping("/admin")
-    public String getAdmin(){
-        return "welcom sdmin";
+
+    @PostMapping("/login")
+    public String getToken(Authentication authentication) {
+        String token = jwtService.generateToken(authentication);
+        return token;
     }
 }
